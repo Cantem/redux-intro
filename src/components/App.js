@@ -1,9 +1,10 @@
-import React from 'react';
-import VotingButtons from './VotingButtons';
-import CountrySelector from './CountrySelector';
+import React from "react";
+import VotingButtons from "./VotingButtons";
+import CountrySelector from "./CountrySelector";
+import CountriesVisited from "./CountriesVisited";
 
 class App extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     const reduxState = this.props.store.getState();
@@ -11,18 +12,19 @@ class App extends React.Component {
     this.state = {
       selectedButton: reduxState.selectButton.selectedButton,
       selectedCountry: reduxState.country.selectedCountry,
-      countryListOpen: reduxState.country.countryListOpen
-    }
+      countryListOpen: reduxState.country.countryListOpen,
+      stateAddedCountry: reduxState.countriesVisited.countries
+    };
   }
 
-  componentDidMount(){
+  componentDidMount() {
     const { store } = this.props;
-    store.subscribe( () => {
+    store.subscribe(() => {
       this.updateFromStore();
     });
   }
 
-  updateFromStore(){
+  updateFromStore() {
     const { store } = this.props;
 
     const reduxState = store.getState();
@@ -30,11 +32,19 @@ class App extends React.Component {
     this.setState({
       selectedButton: reduxState.selectButton.selectedButton,
       selectedCountry: reduxState.country.selectedCountry,
-      countryListOpen: reduxState.country.countryListOpen
+      countryListOpen: reduxState.country.countryListOpen,
+      stateAddedCountry: reduxState.countriesVisited.countries
     });
   }
 
-  render(){
+  handleDelete(event) {
+    dispatch({
+      type: "DELETE_COUNTRY",
+      country: ""
+    });
+  }
+
+  render() {
     return (
       <div>
         <VotingButtons
@@ -46,8 +56,13 @@ class App extends React.Component {
           countryListOpen={this.state.countryListOpen}
           dispatch={this.props.store.dispatch}
         />
+
+        <CountriesVisited
+          stateAddedCountry={this.state.stateAddedCountry}
+          deleteCountry={this.handleDelete}
+        />
       </div>
-    )
+    );
   }
 }
 
