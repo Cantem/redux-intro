@@ -13,7 +13,8 @@ class App extends React.Component {
       selectedButton: reduxState.selectButton.selectedButton,
       selectedCountry: reduxState.country.selectedCountry,
       countryListOpen: reduxState.country.countryListOpen,
-      stateAddedCountry: reduxState.countriesVisited.countries
+      stateAddedCountry: reduxState.countriesVisited.countries,
+      stateDeletedCountry: reduxState.countriesVisited.countries
     };
   }
 
@@ -33,14 +34,8 @@ class App extends React.Component {
       selectedButton: reduxState.selectButton.selectedButton,
       selectedCountry: reduxState.country.selectedCountry,
       countryListOpen: reduxState.country.countryListOpen,
-      stateAddedCountry: reduxState.countriesVisited.countries
-    });
-  }
-
-  handleDelete(event) {
-    dispatch({
-      type: "DELETE_COUNTRY",
-      country: ""
+      stateAddedCountry: reduxState.countriesVisited.countries,
+      stateDeletedCountry: reduxState.countriesVisited.countries
     });
   }
 
@@ -59,7 +54,7 @@ class App extends React.Component {
 
         <CountriesVisited
           stateAddedCountry={this.state.stateAddedCountry}
-          deleteCountry={this.handleDelete}
+          dispatch={this.props.store.dispatch}
         />
       </div>
     );

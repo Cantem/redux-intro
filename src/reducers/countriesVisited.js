@@ -11,7 +11,14 @@ function countriesVisited(
       return stateAddedCountry;
 
     case "DELETE_COUNTRY":
-      return;
+      const countriesLeft = state.countries.filter((_, index) => {
+        return index !== action.countryIndex;
+      });
+      console.log(countriesLeft);
+      const stateDeletedCountry = Object.assign({}, state, {
+        countries: countriesLeft
+      });
+      return stateDeletedCountry;
 
     default:
       return state;
